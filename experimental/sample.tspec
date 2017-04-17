@@ -1,0 +1,32 @@
+# Example Test Spec Configuration File
+
+TSPEC FeatureX
+
+START_TEST Waking Up and Getting Ready to Work
+
+START_STEP 1
+DESCRIPTION Wake up
+RESULT Subject is awake
+END_STEP
+
+START_STEP 2
+DESCRIPTION Get out of bed
+RESULT Subject is no longer in bed
+END_STEP
+
+START_STEP 3
+DESCRIPTION Get ready to go to work
+RESULT Subject is ready to go
+END_STEP
+
+START_STEP 4
+DESCRIPTION Have breakfast
+RESULT Subject realizes the importance of the first meal of the day
+END_STEP
+
+START_STEP 5
+DESCRIPTION Leave the house and drive to work
+RESULT Subject is no longer in the house
+END_STEP
+
+END_TEST
