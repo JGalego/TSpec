@@ -9,6 +9,7 @@ Use the option --record to keep track of the files created during the installati
 git clone https://github.com/JGalego/TSpec.git
 cd TSpec
 python setup.py install --record files.txt
+python -c "import tspec"
 ```
 
 Use the following command to uninstall:
