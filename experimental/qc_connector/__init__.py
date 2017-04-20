@@ -3,7 +3,7 @@
 
 """
 Module QCCONNECTOR
-A simple QC Toolbox module 
+A simple QC Toolbox module
 Docstrings: http://www.python.org/dev/peps/pep-0257/
 """
 
