@@ -1,3 +1,7 @@
+## General Information
+
+Visit <a href="http://alm-help.saas.hp.com/en/12.50/api_refs/ota/">this</a> website for more information about the ALM Open Test Architecture API.
+
 ## Example (QC Connector)
 
 <b>Information:</b> Tested with Python 2.7 (32bit)
