@@ -124,25 +124,83 @@ class QCConnector(object):
             logging.error("Call method QCConnector.get_tree_manager")
             return None
 
-    def get_filtered_children(self, father_id, filt):
-        """Get Filtered Children
-        :param father_id parent identified
-        :param filt children filter"""
-        assert father_id, "Father Node ID is not defined"
-        assert filt, "Children filter is not defined"
-        if self.test_folder_factory:
-            logging.info("Filtering %s child nodes", father_id)
-            return self.test_folder_factory.GetFilteredChildren(father_id, filt)
-        else:
-            logging.error("No test node factory defined.")
-            logging.error("Call method QCConnector.get_test_folder_factory")
-            return None
+    def get_run_factory(self):
+        """Get Run Factory"""
+        return QCRunFactory(self)
+
+    def get_test_factory(self):
+        """Get Test Factory"""
+        return QCTestFactory(self)
 
     def get_children_count(self, node_path):
         """Get child count
         :param node_path parent node path"""
         parent_node = self.get_node_by_path(node_path)
         print parent_node.Count
+
+
+class QCTestFactory(object):
+    """QCTestFactory Class"""
+
+    def __init__(self, qcconnector):
+        """QCTestFactory Constructor"""
+        logging.info("Initializing QC Test Factory")
+        self.qcconnector = qcconnector
+        self.test_factory = qcconnector.quality_center.TestFactory
+
+    def new_list(self, filt):
+        """New List
+        :param filt TDFilter.Text argument"""
+        return self.test_factory.NewList(filt)
+
+    def print_list(self, filt):
+        """Print List
+        :param filt TDFilter.Text argument"""
+        new_list = self.new_list(filt)
+        for idx in range(1, len(new_list)+1):
+            print new_list.Item(idx).Name
+
+class QCRunFactory(object):
+    """QCRunFactory Class"""
+
+    def __init__(self, qcconnector):
+        """QCRunFactory Constructor"""
+        logging.info("Initializing QC Run Factory")
+        self.qcconnector = qcconnector
+        self.run_factory = qcconnector.quality_center.RunFactory
+
+    def new_list(self, filt):
+        """New List
+        :param filt TDFilter.Text argument"""
+        return self.run_factory.NewList(filt)
+
+    def print_list(self, filt):
+        """Print List
+        :param filt TDFilter.Text argument"""
+        new_list = self.new_list(filt)
+        for idx in range(1, len(new_list)+1):
+            print new_list.Item(idx).Name
+
+class QCFactoryFilter(object):
+    """QCFactoryFilter Class
+    Wrapper for the TDFilter Object"""
+
+    def __init__(self, factory):
+        """QCFactoryFilter Constructor
+        :param factory Any factory object except ReqFactory"""
+        self.factory = factory
+        self.filter = factory.Filter
+
+    def get_text(self):
+        """Get Filter Text"""
+        print self.filter.Text
+        return self.filter.Text
+
+    def set_filter(self, column_name, filt):
+        """Set Filter
+        :param column_name
+        :param filt"""
+        self.filter.SetFilter(column_name, filt)
 
 class MLStripper(HTMLParser):
     """MLStripper Class
