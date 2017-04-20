@@ -8,6 +8,7 @@ Docstrings: http://www.python.org/dev/peps/pep-0257/
 """
 
 import logging
+from HTMLParser import HTMLParser
 from win32com.client import Dispatch
 
 # Log Configuration
@@ -91,3 +92,32 @@ class QCConnector(object):
         logging.info("Resetting project")
         self.project = None
         self.__init__(self.url)
+
+class MLStripper(HTMLParser):
+    """MLStripper Class
+    For more information, please check:
+    Dipanjan Sarkar (2016) - Text Analytics with Python and
+    http://stackoverflow.com/questions/753052/strip-html-from-strings-in-python"""
+
+    def __init__(self):
+        """MLStripper Constructor"""
+        HTMLParser.__init__()
+        self.fed = []
+
+    def handle_data(self, data):
+        """Handle data
+        :param data"""
+        self.fed.append(data)
+
+    def get_data(self):
+        """Get Data"""
+        return self.fed
+
+def strip_tags(html):
+    """Strip HTML Tags
+    :param html HTML content"""
+    parser = HTMLParser()
+    stripper = MLStripper()
+    html = parser.unescape(html)
+    stripper.feed(html)
+    return stripper.get_data()
