@@ -3,8 +3,7 @@
 
 """
 Module QCCONNECTOR
-A simple Python module that allows the user to create
-Quality Center-compatible test specifications.
+A simple QC Toolbox module 
 Docstrings: http://www.python.org/dev/peps/pep-0257/
 """
 
