@@ -138,6 +138,55 @@ class QCConnector(object):
         parent_node = self.get_node_by_path(node_path)
         print parent_node.Count
 
+    def recursive_export(self, csv_file, node):
+        """Recursive Export
+        :param csv_file
+        :param node"""
+        assert node, "Node is not defined"
+        logging.info("Exporting tests from node %s", node.Name)
+        csv_file.write('%s,%s\n' % (node.Name, strip_tags(node.Description)))
+        if node.Count <= 0:
+            # Get all tests
+            tests = node.FindTests('')
+            if tests:
+                for test in tests:
+                    design_step_factory = test.DesignStepFactory
+                    csv_file.write(',%s,%s\n' % (test.ID, test.Name))
+                    for design_step in design_step_factory.NewList(''):
+                        # Get Step Info
+                        step_name = strip_tags(design_step.StepName)
+                        step_description = strip_tags(design_step.StepDescription)
+                        step_expected_result = strip_tags(design_step.StepExpectedResult)
+                        # Write Step
+                        csv_file.write(',,,,%s,%s,%s\n' %(step_name,
+                                                          step_description,
+                                                          step_expected_result))
+                    csv_file.flush()
+        else:
+            for child in node.NewList():
+                if child:
+                    self.recursive_export(csv_file, child)
+                    csv_file.write('\n')
+
+    def export_tests(self, node_path, csv_path="./tests.csv"):
+        """Export tests from CSV
+        :param node_path quality center node path
+        :param csv_path"""
+        # Open CSV file
+        logging.debug("Opening file %s", csv_path)
+        csv_file = open(csv_path, 'w')
+        # Write CSV header
+        csv_file.write(',test_id,test_name,,,step_id,step_description,step_expected_result\n')
+        # Get QC node
+        self.get_tree_manager()
+        node = self.get_node_by_path(node_path)
+        # Export tests to CSV
+        logging.info("Exporting tests to %s", csv_path)
+        self.recursive_export(csv_file, node)
+        # Close CSV file
+        logging.debug("Closing file %s", csv_path)
+        csv_file.close()
+
 
 class QCTestFactory(object):
     """QCTestFactory Class"""
@@ -210,7 +259,7 @@ class MLStripper(HTMLParser):
 
     def __init__(self):
         """MLStripper Constructor"""
-        HTMLParser.__init__()
+        HTMLParser.__init__(self)
         self.fed = []
 
     def handle_data(self, data):
@@ -220,7 +269,8 @@ class MLStripper(HTMLParser):
 
     def get_data(self):
         """Get Data"""
-        return self.fed
+        #return self.fed
+        return ''.join(self.fed).encode('utf-8').strip()
 
 def strip_tags(html):
     """Strip HTML Tags
