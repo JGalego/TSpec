@@ -262,7 +262,7 @@ class TestSpec(object):
 
     def __str__(self):
         """TestSpec String Representation"""
-        print self.name
+        print(self.name)
         return "".join(map(str, self.tests))
 
     def get_name(self):

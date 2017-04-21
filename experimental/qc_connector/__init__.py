@@ -136,7 +136,7 @@ class QCConnector(object):
         """Get child count
         :param node_path parent node path"""
         parent_node = self.get_node_by_path(node_path)
-        print parent_node.Count
+        return parent_node.Count
 
     def recursive_export(self, csv_file, node):
         """Recursive Export
@@ -207,7 +207,7 @@ class QCTestFactory(object):
         :param filt TDFilter.Text argument"""
         new_list = self.new_list(filt)
         for idx in range(1, len(new_list)+1):
-            print new_list.Item(idx).Name
+            print(new_list.Item(idx).Name)
 
 class QCRunFactory(object):
     """QCRunFactory Class"""
@@ -228,7 +228,7 @@ class QCRunFactory(object):
         :param filt TDFilter.Text argument"""
         new_list = self.new_list(filt)
         for idx in range(1, len(new_list)+1):
-            print new_list.Item(idx).Name
+            print(new_list.Item(idx).Name)
 
 class QCFactoryFilter(object):
     """QCFactoryFilter Class
@@ -242,7 +242,7 @@ class QCFactoryFilter(object):
 
     def get_text(self):
         """Get Filter Text"""
-        print self.filter.Text
+        print(self.filter.Text)
         return self.filter.Text
 
     def set_filter(self, column_name, filt):

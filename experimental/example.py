@@ -8,7 +8,7 @@ def main():
 
     # Generate TestSpec Object
     test_spec = parser.generate_tspec()
-    print test_spec
+    print(test_spec)
 
     # Convert TestSpec to CSV file
     test_spec.convert_to_csv()
