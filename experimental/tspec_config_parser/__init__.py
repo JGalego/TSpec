@@ -38,7 +38,7 @@ def get_directive(line):
     for directive, pattern in LEXER.iteritems():
         match = re.match(pattern, line)
         if match:
-            return (directive, match.groupdict())
+            return directive, match.groupdict()
     return None
 
 class TestSpecConfigParser(object):
